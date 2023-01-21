@@ -1,6 +1,6 @@
 # ufd-exporter
 
-Bash script that uploads the kWh data from UFD API to influxdb on a weekly basis
+Bash script that uploads the energy consumption data from the UFD API to influxdb on a weekly basis
 
 ## Dependencies
 
@@ -94,6 +94,8 @@ systemctl --user list-timers
 ```
 
 ## Exported metrics
+
+The UFD API call period is limited to the last 14 days by default.
 
 - pX: The energy consumption in kWh for the corresponding period type
 - hour: The datetime corresponding to the consumption above
