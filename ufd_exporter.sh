@@ -126,7 +126,7 @@ for i in $(seq 0 "$length"); do
 done
 
 echo -n "${price_stats:1}" | $GZIP |
-    $CURL \
+    $CURL --silent \
         --request POST "${INFLUXDB_URL}" \
         --header 'Content-Encoding: gzip' \
         --header "Authorization: Token $INFLUXDB_API_TOKEN" \
