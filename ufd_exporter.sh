@@ -77,56 +77,27 @@ ufd_json=$(
         $JQ '.items'
 )
 
-length=$(echo "$ufd_json" | $JQ 'length - 1')
+price_stats=$(
+    echo "$ufd_json" |
+        $JQ --raw-output "
+        (.[].consumptions.items[] |
+        [\"${CUPS}\",
+        if .consumptionValueP1  == \"\" then \"0\" else .consumptionValueP1 end,
+        if .consumptionValueP2  == \"\" then \"0\" else .consumptionValueP2 end,
+        if .consumptionValueP3  == \"\" then \"0\" else .consumptionValueP3 end,
+        if .consumptionValueP4  == \"\" then \"0\" else .consumptionValueP4 end,
+        if .consumptionValueP5  == \"\" then \"0\" else .consumptionValueP5 end,
+        if .consumptionValueP6  == \"\" then \"0\" else .consumptionValueP6 end,
+        ( (.consumptionDate? + ((if .hour == 24 then 0 else .hour end) | tostring)) | strptime(\"%d/%m/%Y%H\") | todate | fromdate)
+        ])
+        | @tsv" |
+        $TR , . |
+        $AWK '{printf "ufd_consumption,cups=%s p1=%s,p2=%s,p3=%s,p4=%s,p5=%s,p6=%s %s\n", $1, $2, $3, $4, $5, $6, $7, $8}'
+)
 
-for i in $(seq 0 "$length"); do
-
-    for j in $(seq 0 23); do
-
-        mapfile -t parsed_stats < <(
-            echo "$ufd_json" |
-                $JQ --raw-output \
-                    ".[$i].consumptions.items[$j] | .hour,.consumptionDate,.consumptionValueP1,.consumptionValueP2,.consumptionValueP3,.consumptionValueP4,.consumptionValueP5,.consumptionValueP6" |
-                $TR , .
-        )
-
-        hour_value=${parsed_stats[0]}
-
-        if [[ $hour_value -eq "null" ]]; then
-            break
-        fi
-
-        if [[ $hour_value -eq "24" ]]; then
-            hour_value="0"
-        fi
-
-        if [[ $hour_value -lt "10" ]]; then
-            hour_value="0$hour_value"
-        fi
-
-        consumptionDate_value=${parsed_stats[1]}
-
-        consumptionValue_P1=${parsed_stats[2]:=0}
-        consumptionValue_P2=${parsed_stats[3]:=0}
-        consumptionValue_P3=${parsed_stats[4]:=0}
-        consumptionValue_P4=${parsed_stats[5]:=0}
-        consumptionValue_P5=${parsed_stats[6]:=0}
-        consumptionValue_P6=${parsed_stats[7]:=0}
-
-        formatted_date=$(echo "${consumptionDate_value}" | $AWK --field-separator='/' 'OFS="-" {print $3, $2, $1}')
-        ts=$($DATE "+%s" --date="$formatted_date ${hour_value}:00:00")
-
-        price_stats+=$(
-            printf "\nufd_consumption,hour=%s p1=%s,p2=%s,p3=%s,p4=%s,p5=%s,p6=%s %s" \
-                "${formatted_date}T${hour_value}:00:00" "$consumptionValue_P1" "$consumptionValue_P2" \
-                "$consumptionValue_P3" "$consumptionValue_P4" "$consumptionValue_P5" "$consumptionValue_P6" "$ts"
-        )
-
-    done
-done
-
-echo -n "${price_stats:1}" | $GZIP |
-    $CURL --silent \
+echo "${price_stats}" |
+    $GZIP |
+    $CURL \
         --request POST "${INFLUXDB_URL}" \
         --header 'Content-Encoding: gzip' \
         --header "Authorization: Token $INFLUXDB_API_TOKEN" \
