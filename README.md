@@ -137,6 +137,7 @@ Delete the following files:
 
 This project takes inspiration from the following:
 
+- [xocasdashdash/fetch_ufd_data.py](https://gist.github.com/xocasdashdash/3635f6ebfd88c3628b21d93f52d23e04)
 - [rare-magma/pbs-exporter](https://github.com/rare-magma/pbs-exporter)
 - [mad-ady/prometheus-borg-exporter](https://github.com/mad-ady/prometheus-borg-exporter)
 - [OVYA/prometheus-borg-exporter](https://github.com/OVYA/prometheus-borg-exporter)
