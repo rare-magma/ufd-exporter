@@ -71,8 +71,8 @@ CUPS='ES0000000000000000XX0X'
 ```
 
 - `INFLUXDB_HOST` should be the FQDN of the influxdb server.
-- `ORG` should be the name of the influxdb organization that contains the ufd price data bucket defined below.
-- `BUCKET` should be the name of the influxdb bucket that will hold the ufd price data.
+- `ORG` should be the name of the influxdb organization that contains the energy consumption data bucket defined below.
+- `BUCKET` should be the name of the influxdb bucket that will hold the energy consumption data.
 - `INFLUXDB_API_TOKEN` should be the influxdb API token value.
   - This token should have write access to the `BUCKET` defined above.
 - `UFD_USERNAME` and `UFD_PASSWORD`should be the credentials used to access the UFD website
