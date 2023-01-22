@@ -97,7 +97,7 @@ price_stats=$(
 
 echo "${price_stats}" |
     $GZIP |
-    $CURL \
+    $CURL --silent \
         --request POST "${INFLUXDB_URL}" \
         --header 'Content-Encoding: gzip' \
         --header "Authorization: Token $INFLUXDB_API_TOKEN" \
