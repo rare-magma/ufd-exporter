@@ -98,12 +98,12 @@ systemctl --user list-timers
 The UFD API call period is limited to the last 14 days by default.
 
 - pX: The energy consumption in kWh for the corresponding period type
-- hour: The datetime corresponding to the consumption above
+- cups: The cups corresponding to the consumption point above
 
 ## Exported metrics example
 
 ```
-ufd_consumption,hour=2023-01-01T23:00:00 p1=0.123,p2=0,p3=0,p4=0,p5=0,p6=0 1672610400
+ufd_consumption,cups=ES0000000000000000XX0X p1=0.123,p2=0,p3=0,p4=0,p5=0,p6=0 1672610400
 ```
 
 ## Uninstallation
