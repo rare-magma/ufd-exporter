@@ -36,7 +36,8 @@ UFD_LOGIN_URL="https://api.ufd.es/ufd/v1.0/login"
 UFD_API_URL="https://api.ufd.es/ufd/v1.0/consumptions"
 
 ufd_token=$(
-    $CURL --silent --compressed \
+    $CURL --silent --fail --show-error \
+        --compressed \
         --request POST \
         --data "{\"user\": \"$UFD_USERNAME\",\"password\": \"$UFD_PASSWORD\"}" \
         --header 'Accept-Encoding: gzip, deflate, br' \
@@ -63,7 +64,8 @@ ufd_query+="isDelegate::N%7C"
 ufd_query+="measurementSystem::O"
 
 ufd_json=$(
-    $CURL --silent --compressed \
+    $CURL --silent --fail --show-error \
+        --compressed \
         --request GET \
         --header 'Accept-Encoding: gzip, deflate, br' \
         --header "Authorization: Bearer $ufd_token" \
@@ -97,7 +99,7 @@ price_stats=$(
 
 echo "${price_stats}" |
     $GZIP |
-    $CURL --silent \
+    $CURL --silent --fail --show-error \
         --request POST "${INFLUXDB_URL}" \
         --header 'Content-Encoding: gzip' \
         --header "Authorization: Token $INFLUXDB_API_TOKEN" \
