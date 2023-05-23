@@ -29,7 +29,7 @@ JQ=$(command -v jq)
 TR=$(command -v tr)
 
 TODAY=$($DATE +"%d/%m/%Y")
-WEEK_AGO=$($DATE +"%d/%m/%Y" --date "2 weeks ago")
+MONTH_AGO=$($DATE +"%d/%m/%Y" --date "30 days ago")
 
 INFLUXDB_URL="https://$INFLUXDB_HOST/api/v2/write?precision=s&org=$ORG&bucket=$BUCKET"
 UFD_LOGIN_URL="https://api.ufd.es/ufd/v1.0/login"
@@ -55,7 +55,7 @@ ufd_token=$(
 ufd_query="$UFD_API_URL?filter="
 ufd_query+="nif::$UFD_USERNAME"
 ufd_query+="%7Ccups::$CUPS%7C"
-ufd_query+="startDate::$WEEK_AGO%7C"
+ufd_query+="startDate::$MONTH_AGO%7C"
 ufd_query+="endDate::$TODAY%7C"
 ufd_query+="granularity::F%7C"
 ufd_query+="unit::K%7C"
