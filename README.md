@@ -106,6 +106,18 @@ The UFD API call period is limited to the last 30 days by default.
 ufd_consumption,cups=ES0000000000000000XX0X p1=0.123,p2=0,p3=0,p4=0,p5=0,p6=0 1672610400
 ```
 
+## Example grafana dashboard
+
+In `ufd-dashboard.json` there is an example of the kind of dashboard that can be built with `ufd-exporter` data:
+
+<img src="dashboard-screenshot.png" title="Example grafana dashboard" width="100%">
+
+Import it by doing the following:
+
+1. Create a dashboard
+2. Click the dashboard's settings button on the top right.
+3. Go to JSON Model and then paste there the content of the `ufd-dashboard.json` file.
+
 ## Uninstallation
 
 ### With the Makefile
