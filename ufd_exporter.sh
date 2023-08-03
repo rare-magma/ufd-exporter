@@ -41,11 +41,12 @@ ufd_token=$(
         --request POST \
         --data "{\"user\": \"$UFD_USERNAME\",\"password\": \"$UFD_PASSWORD\"}" \
         --header 'Accept-Encoding: gzip, deflate, br' \
-        --header 'X-Appclientid: ACUFDWeb' \
+        --header 'X-Appclientid: 1f3n1frmnqn14arndr3507lnok' \
         --header 'X-AppClient: ACUFDW' \
         --header 'X-Application: ACUFD' \
         --header 'X-Appversion: 1.0.0.0' \
-        --header 'X-AppClientSecret: 4CUFDW3b' \
+        --header 'X-AppClientSecret: 102sml3ajvkdjakoh2rhgrfpvjogl4b0or5nqmcmilvt2odpu9ce' \
+        --header 'X-MessageId: 1f3n1frmnqn14arndr3507lnok' \
         --header "Content-Type: application/json" \
         --header 'Content-Encoding: application/json' \
         "$UFD_LOGIN_URL" |
@@ -57,10 +58,11 @@ ufd_query+="nif::$UFD_USERNAME"
 ufd_query+="%7Ccups::$CUPS%7C"
 ufd_query+="startDate::$MONTH_AGO%7C"
 ufd_query+="endDate::$TODAY%7C"
-ufd_query+="granularity::F%7C"
+ufd_query+="granularity::H%7C"
 ufd_query+="unit::K%7C"
 ufd_query+="generator::0%7C"
 ufd_query+="isDelegate::N%7C"
+ufd_query+="isSelfConsumption::0%7C"
 ufd_query+="measurementSystem::O"
 
 ufd_json=$(
@@ -69,10 +71,12 @@ ufd_json=$(
         --request GET \
         --header 'Accept-Encoding: gzip, deflate, br' \
         --header "Authorization: Bearer $ufd_token" \
-        --header 'X-Appclient: ACUFDW' \
-        --header 'X-Appclientsecret: 4CUFDW3b' \
+        --header 'X-Appclientid: 1f3n1frmnqn14arndr3507lnok' \
+        --header 'X-AppClient: ACUFDW' \
         --header 'X-Application: ACUFD' \
         --header 'X-Appversion: 1.0.0.0' \
+        --header 'X-AppClientSecret: 102sml3ajvkdjakoh2rhgrfpvjogl4b0or5nqmcmilvt2odpu9ce' \
+        --header 'X-MessageId: 1f3n1frmnqn14arndr3507lnok' \
         --header "Content-Type: application/json" \
         --header 'Content-Encoding: application/json' \
         "$ufd_query" |
