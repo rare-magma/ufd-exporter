@@ -1,4 +1,8 @@
-# ufd-exporter
+# ARCHIVED
+
+Use <https://github.com/rare-magma/datadis-exporter> instead.
+
+## ufd-exporter
 
 Bash script that uploads the energy consumption data from the UFD API to influxdb on a weekly basis
 
